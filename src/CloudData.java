@@ -28,6 +28,18 @@ public class CloudData
 		ind[2] = pos % (dimy); // y
 		return ind;
 	}
+	
+	//Method to set wind vector from results from other classes
+	void setWind(Vector v)
+	{
+		wind = v;
+	}
+	
+	//Method to get wind vector
+	Vector getWind()
+	{
+		return wind;
+	}
 
 	// read cloud simulation data from file
 	void readData(String fileName)

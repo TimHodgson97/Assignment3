@@ -7,24 +7,40 @@ import java.util.Scanner;
 
 public class Meteorology
 {
-		public static void main(String[] args)
-		{
-			Scanner s = new Scanner(System.in);
-			String outputFile;
-			String inputFile;
+	public static void main(String[] args)
+	{
+		Scanner s = new Scanner(System.in);
+		String outputFile;
+		String inputFile;
+		long tick[] = new long[151];
+		long tock[] = new long[150];
 
-			System.out.println("Input files in form <data file name> <output file name> separated by a space");
-			inputFile = s.next();
-			outputFile = s.Next();
-			System.out.println("Input mode (0 for sequential, 1 for parallel)");
-			int state = s.nextInt();
+		System.out.println("Input files in form <data file name> <output file name> separated by a space");
+		inputFile = s.next();
+		outputFile = s.Next();
+		System.out.println("Input mode (0 for sequential, 1 for parallel)");
+		int mode = s.nextInt();
 			
-			//Use CloudData class to read the input file
-			CloudData cd = new CloudData();
-			cd.readData(inputFile);
-			ThreadSum tS = new ThreadSum(cd, 0, cd.dim()-1);
-			
+		//Use CloudData class to read the input file
+		CloudData cd = new CloudData();
+		cd.readData(inputFile);
+		System.gc();
+		if (mode = 0)
+		{
+			SerialCloud sc = new SerialCloud(cd, 0, cd.dim()-1)
 		}
+		ThreadSum tS = new ThreadSum(cd, 0, cd.dim()-1);
+			
+	}
+		
+	private static void tick()
+	{
+		startTime = System.currentTimeMillis();
+	}
+	private static float tock()
+	{
+		return (System.currentTimeMillis() - startTime)
+	}
 
 
 
