@@ -14,6 +14,8 @@ public class Meteorology
 		String inputFile;
 		long tick[] = new long[151];
 		long tock[] = new long[150];
+		long tot;
+		long avg;
 
 		System.out.println("Input files in form <data file name> <output file name> separated by a space");
 		inputFile = s.next();
@@ -27,20 +29,52 @@ public class Meteorology
 		System.gc();
 		if (mode = 0)
 		{
-			SerialCloud sc = new SerialCloud(cd, 0, cd.dim()-1)
+			tick[0] = System.currentTimeMillis();
+			for (int i=0; i<151 i++)
+			{
+				SerialCloud sc = new SerialCloud(cd, 0, cd.dim()-1)
+				cd.setWind(sc.classify());
+				tick[i] = System.currentTimeMillis();
+			}
+			for (int j = 0; j<150; j++)
+			{
+				tock[j] = tick[j+1]-tick[j];
+				tot += tock[j];
+			}
 		}
-		ThreadSum tS = new ThreadSum(cd, 0, cd.dim()-1);
-			
+		else if (mode = 1)
+		{
+			tick[0] = System.currentTimeMillis();
+			for (int i=0; i<151 i++)
+			{
+				ThreadSum ts = new ThreadSum(cd, 0, cd.dim()-1);
+				cd.setWind(ts.compute());
+				tick[i] = System.currentTimeMillis();
+			}
+			for (int j = 0; j<150; j++)
+			{
+				tock[j] = tick[j+1]-tick[j];
+				tot += tock[j];
+			}
+		}
+		//Catch the naughty ones trying to pull a fast one with a mode we didn't prepare for!
+		else
+		{
+			System.out.println("Error: Incorrect Mode Entry");
+		}
+		avg = tot/150;
+		System.out.println("Time to run 150 times: " + tot+ " Average time taken: ");
+		cd.writeData(outputFile);
 	}
 		
-	private static void tick()
+/*	private static void tick()
 	{
 		startTime = System.currentTimeMillis();
 	}
 	private static float tock()
 	{
 		return (System.currentTimeMillis() - startTime)
-	}
+	}*/
 
 
 
