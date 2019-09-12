@@ -1,4 +1,4 @@
-// Serialised verion of meteorology
+//Serialised verion of meteorology
 //Tim Hodgson
 //August 2019
 
@@ -7,26 +7,34 @@ import java.util.Scanner;
 
 public class Meteorology
 {
-	public static String outputFile;
-	public static String inputFile;
-	//public String[] data;
-
-	public static void main(String[] args)
+		public static void main(String[] args)
 		{
-			Scanner inputOutput = new Scanner(System.in);
+			Scanner s = new Scanner(System.in);
+			String outputFile;
+			String inputFile;
 
 			System.out.println("Input files in form <data file name> <output file name> separated by a space");
-			String temp = inputOutput.nextLine();
-			System.out.println(temp);
-			String[]  files = temp.split("\\s+");
-			//Assign file names to input and output
-			inputFile = files[0].toString();
-			outputFile = files[1].toString();
-
-			//Read the input file data into an array
-			readInputFile(inputFile);
+			inputFile = s.next();
+			outputFile = s.Next();
+			System.out.println("Input mode (0 for sequential, 1 for parallel)");
+			int state = s.nextInt();
+			
+			//Use CloudData class to read the input file
+			CloudData cd = new CloudData();
+			cd.readData(inputFile);
+			ThreadSum tS = new ThreadSum(cd, 0, cd.dim()-1);
+			
 		}
 
+
+
+
+
+
+
+
+
+/*
 	public static void readInputFile(String s)
 	{
 		String line = null;
@@ -51,5 +59,5 @@ public class Meteorology
 		{
             		System.out.println("Error reading file '" + s + "'");
       		}
-	}
+	}*/
 }

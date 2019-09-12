@@ -5,15 +5,15 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.lang.Math;
 
 public class CloudData
 {
-
-	Vector [][][] advection; // in-plane regular grid of wind vectors, that evolve over time
-	float [][][] convection; // vertical air movement strength, that evolves over time
-	int [][][] classification; // cloud type per grid point, evolving over time
-	int dimx, dimy, dimt; // data dimensions
-
+	Vector [][][] advection;		// in-plane regular grid of wind vectors, that evolve over time
+	float [][][] convection;		// vertical air movement strength, that evolves over time
+	int [][][] classification;		// cloud type per grid point, evolving over time
+	int dimx, dimy, dimt;			// data dimensions
+	Vector wind = new Vector(0, 0);
 	// overall number of elements in the timeline grids
 	int dim()
 	{
@@ -21,11 +21,12 @@ public class CloudData
 	}
 
 	// convert linear position into 3D location in simulation grid
-	void locate(int pos, int [] ind)
+	int[] locate(int pos, int [] ind)
 	{
 		ind[0] = (int) pos / (dimx*dimy); // t
 		ind[1] = (pos % (dimx*dimy)) / dimy; // x
 		ind[2] = pos % (dimy); // y
+		return ind;
 	}
 
 	// read cloud simulation data from file
@@ -44,7 +45,9 @@ public class CloudData
 			advection = new Vector[dimt][dimx][dimy];
 			convection = new float[dimt][dimx][dimy];
 			for(int t = 0; t < dimt; t++)
+			{
 				for(int x = 0; x < dimx; x++)
+				{
 					for(int y = 0; y < dimy; y++)
 					{
 						advection[t][x][y] = new Vector();
@@ -52,6 +55,8 @@ public class CloudData
 						advection[t][x][y].y = sc.nextFloat();
 						convection[t][x][y] = sc.nextFloat();
 					}
+				}
+			}
 
 			classification = new int[dimt][dimx][dimy];
 			sc.close();
